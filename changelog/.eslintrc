@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "react-hooks/rules-of-hooks": false
+  },
+  "extends": ["react-app", "prettier"]
+}
