@@ -16,133 +16,11 @@ export interface Config {
     "payload-migrations": PayloadMigration;
   };
   globals: {
-    settings: Settings;
     header: Header;
     footer: Footer;
   };
 }
-export interface Page {
-  id: string;
-  title: string;
-  publishedAt?: string | null;
-  hero: {
-    type: "none" | "highImpact" | "mediumImpact" | "lowImpact";
-    richText: {
-      [k: string]: unknown;
-    }[];
-    links?:
-      | {
-          link: {
-            type?: ("reference" | "custom") | null;
-            newTab?: boolean | null;
-            reference?: {
-              relationTo: "pages";
-              value: string | Page;
-            } | null;
-            url?: string | null;
-            label: string;
-            appearance?: ("default" | "primary" | "secondary") | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
-    media?: string | Media | null;
-  };
-  layout: (
-    | {
-        invertBackground?: boolean | null;
-        richText: {
-          [k: string]: unknown;
-        }[];
-        links?:
-          | {
-              link: {
-                type?: ("reference" | "custom") | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: "pages";
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                appearance?: ("primary" | "secondary") | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "cta";
-      }
-    | {
-        invertBackground?: boolean | null;
-        columns?:
-          | {
-              size?: ("oneThird" | "half" | "twoThirds" | "full") | null;
-              richText: {
-                [k: string]: unknown;
-              }[];
-              enableLink?: boolean | null;
-              link?: {
-                type?: ("reference" | "custom") | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: "pages";
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                appearance?: ("default" | "primary" | "secondary") | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "content";
-      }
-    | {
-        invertBackground?: boolean | null;
-        position?: ("default" | "fullscreen") | null;
-        media: string | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "mediaBlock";
-      }
-    | {
-        introContent: {
-          [k: string]: unknown;
-        }[];
-        populateBy?: ("collection" | "selection") | null;
-        limit?: number | null;
-        selectedDocs?:
-          | {
-              relationTo: "changelogs";
-              value: string | Changelog;
-            }[]
-          | null;
-        populatedDocs?:
-          | {
-              relationTo: "changelogs";
-              value: string | Changelog;
-            }[]
-          | null;
-        populatedDocsTotal?: number | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "archive";
-      }
-  )[];
-  slug?: string | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: string | Media | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ("draft" | "published") | null;
-}
+
 export interface Media {
   id: string;
   alt: string;
@@ -171,203 +49,7 @@ export interface Changelog {
         name?: string | null;
       }[]
     | null;
-  hero: {
-    type: "none" | "highImpact" | "mediumImpact" | "lowImpact";
-    richText: {
-      [k: string]: unknown;
-    }[];
-    links?:
-      | {
-          link: {
-            type?: ("reference" | "custom") | null;
-            newTab?: boolean | null;
-            reference?: {
-              relationTo: "pages";
-              value: string | Page;
-            } | null;
-            url?: string | null;
-            label: string;
-            appearance?: ("default" | "primary" | "secondary") | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
-    media?: string | Media | null;
-  };
-  layout: (
-    | {
-        invertBackground?: boolean | null;
-        richText: {
-          [k: string]: unknown;
-        }[];
-        links?:
-          | {
-              link: {
-                type?: ("reference" | "custom") | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: "pages";
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                appearance?: ("primary" | "secondary") | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "cta";
-      }
-    | {
-        invertBackground?: boolean | null;
-        columns?:
-          | {
-              size?: ("oneThird" | "half" | "twoThirds" | "full") | null;
-              richText: {
-                [k: string]: unknown;
-              }[];
-              enableLink?: boolean | null;
-              link?: {
-                type?: ("reference" | "custom") | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: "pages";
-                  value: string | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                appearance?: ("default" | "primary" | "secondary") | null;
-              };
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "content";
-      }
-    | {
-        invertBackground?: boolean | null;
-        position?: ("default" | "fullscreen") | null;
-        media: string | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "mediaBlock";
-      }
-    | {
-        introContent: {
-          [k: string]: unknown;
-        }[];
-        populateBy?: ("collection" | "selection") | null;
-        limit?: number | null;
-        selectedDocs?:
-          | {
-              relationTo: "changelogs";
-              value: string | Changelog;
-            }[]
-          | null;
-        populatedDocs?:
-          | {
-              relationTo: "changelogs";
-              value: string | Changelog;
-            }[]
-          | null;
-        populatedDocsTotal?: number | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: "archive";
-      }
-  )[];
-  enablePremiumContent?: boolean | null;
-  premiumContent?:
-    | (
-        | {
-            invertBackground?: boolean | null;
-            richText: {
-              [k: string]: unknown;
-            }[];
-            links?:
-              | {
-                  link: {
-                    type?: ("reference" | "custom") | null;
-                    newTab?: boolean | null;
-                    reference?: {
-                      relationTo: "pages";
-                      value: string | Page;
-                    } | null;
-                    url?: string | null;
-                    label: string;
-                    appearance?: ("primary" | "secondary") | null;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: "cta";
-          }
-        | {
-            invertBackground?: boolean | null;
-            columns?:
-              | {
-                  size?: ("oneThird" | "half" | "twoThirds" | "full") | null;
-                  richText: {
-                    [k: string]: unknown;
-                  }[];
-                  enableLink?: boolean | null;
-                  link?: {
-                    type?: ("reference" | "custom") | null;
-                    newTab?: boolean | null;
-                    reference?: {
-                      relationTo: "pages";
-                      value: string | Page;
-                    } | null;
-                    url?: string | null;
-                    label: string;
-                    appearance?: ("default" | "primary" | "secondary") | null;
-                  };
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: "content";
-          }
-        | {
-            invertBackground?: boolean | null;
-            position?: ("default" | "fullscreen") | null;
-            media: string | Media;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: "mediaBlock";
-          }
-        | {
-            introContent: {
-              [k: string]: unknown;
-            }[];
-            populateBy?: ("collection" | "selection") | null;
-            limit?: number | null;
-            selectedDocs?:
-              | {
-                  relationTo: "changelogs";
-                  value: string | Changelog;
-                }[]
-              | null;
-            populatedDocs?:
-              | {
-                  relationTo: "changelogs";
-                  value: string | Changelog;
-                }[]
-              | null;
-            populatedDocsTotal?: number | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: "archive";
-          }
-      )[]
-    | null;
-  relatedChangelogs?: (string | Changelog)[] | null;
+  media?: string | Media | null;
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -398,15 +80,10 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ("reference" | "custom") | null;
-    reference?:
-      | ({
-          relationTo: "pages";
-          value: string | Page;
-        } | null)
-      | ({
-          relationTo: "changelogs";
-          value: string | Changelog;
-        } | null);
+    reference?: {
+      relationTo: "changelogs";
+      value: string | Changelog;
+    } | null;
     url?: string | null;
   };
   updatedAt: string;
@@ -438,23 +115,12 @@ export interface PayloadMigration {
   updatedAt: string;
   createdAt: string;
 }
-export interface Settings {
-  id: string;
-  changelogsPage?: (string | null) | Page;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
 export interface Header {
   id: string;
   navItems?:
     | {
         link: {
-          type?: ("reference" | "custom") | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: "pages";
-            value: string | Page;
-          } | null;
           url?: string | null;
           label: string;
         };
@@ -469,12 +135,7 @@ export interface Footer {
   navItems?:
     | {
         link: {
-          type?: ("reference" | "custom") | null;
           newTab?: boolean | null;
-          reference?: {
-            relationTo: "pages";
-            value: string | Page;
-          } | null;
           url?: string | null;
           label: string;
         };

@@ -3,7 +3,6 @@ import type { CollectionConfig } from "payload/types";
 import { admins } from "../../access/admins";
 import { adminsOrPublished } from "../../access/adminsOrPublished";
 import { slugField } from "../../fields/slug";
-import { populateArchiveBlock } from "../../hooks/populateArchiveBlock";
 import { populatePublishedAt } from "../../hooks/populatePublishedAt";
 import { populateAuthors } from "./hooks/populateAuthors";
 import { revalidateChangelog } from "./hooks/revalidateChangelog";
@@ -24,7 +23,7 @@ const Changelogs: CollectionConfig = {
   hooks: {
     beforeChange: [populatePublishedAt],
     afterChange: [revalidateChangelog],
-    afterRead: [populateArchiveBlock, populateAuthors],
+    afterRead: [populateAuthors],
   },
   versions: {
     drafts: true,
@@ -99,19 +98,6 @@ const Changelogs: CollectionConfig = {
           type: "text",
         },
       ],
-    },
-    {
-      name: "relatedChangelogs",
-      type: "relationship",
-      relationTo: "changelogs",
-      hasMany: true,
-      filterOptions: ({ id }) => {
-        return {
-          id: {
-            not_in: [id],
-          },
-        };
-      },
     },
     slugField(),
   ],

@@ -1,27 +1,26 @@
-import path from "path";
+import path from "path"
 
-import { payloadCloud } from "@payloadcms/plugin-cloud";
+import { payloadCloud } from "@payloadcms/plugin-cloud"
 
-import seo from "@payloadcms/plugin-seo";
-import type { GenerateTitle } from "@payloadcms/plugin-seo/types";
-import redirects from "@payloadcms/plugin-redirects";
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { webpackBundler } from "@payloadcms/bundler-webpack";
-import { slateEditor } from "@payloadcms/richtext-slate";
-import { buildConfig } from "payload/config";
+import seo from "@payloadcms/plugin-seo"
+import type { GenerateTitle } from "@payloadcms/plugin-seo/types"
+import redirects from "@payloadcms/plugin-redirects"
+import { mongooseAdapter } from "@payloadcms/db-mongodb"
+import { webpackBundler } from "@payloadcms/bundler-webpack"
+import { slateEditor } from "@payloadcms/richtext-slate"
+import { buildConfig } from "payload/config"
 
-import Users from "./collections/Users";
-import Changelogs from "./collections/Changelog";
-import Media from "./collections/Media";
-import BeforeLogin from "./components/BeforeLogin";
-import BeforeDashboard from "./components/BeforeDashboard";
-import Settings from "./globals/Settings";
-import Header from "./globals/Header";
-import Footer from "./globals/Footer";
+import Users from "./collections/Users"
+import Changelogs from "./collections/Changelog"
+import Media from "./collections/Media"
+import BeforeLogin from "./components/BeforeLogin"
+import BeforeDashboard from "./components/BeforeDashboard"
+import Header from "./globals/Header"
+import Footer from "./globals/Footer"
 
 const generateTitle: GenerateTitle = () => {
-  return "Payload";
-};
+  return "Payload"
+}
 
 export default buildConfig({
   admin: {
@@ -44,7 +43,7 @@ export default buildConfig({
           dotenv: path.resolve(__dirname, "./dotenv.js"),
           [path.resolve(__dirname, "./endpoints/seed")]: path.resolve(
             __dirname,
-            "./emptyModuleMock.js"
+            "./emptyModuleMock.js",
           ),
         },
       },
@@ -52,7 +51,7 @@ export default buildConfig({
   },
   editor: slateEditor({}),
   collections: [Users, Changelogs, Media],
-  globals: [Settings, Header, Footer],
+  globals: [Header, Footer],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
@@ -73,4 +72,4 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
-});
+})

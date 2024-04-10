@@ -1,8 +1,6 @@
 import React from "react";
 import { Banner } from "payload/components";
 
-import { SeedButton } from "./SeedButton";
-
 import "./index.scss";
 
 const baseClass = "before-dashboard";
@@ -15,12 +13,6 @@ const BeforeDashboard: React.FC = () => {
       </Banner>
       Here&apos;s what to do next:
       <ul className={`${baseClass}__instructions`}>
-        <li>
-          <SeedButton />
-          {" with a few  changelogs, to jump-start your new site, then "}
-          <a href="/">visit your website</a>
-          {" to see the results."}
-        </li>
         <li>
           If you created this repo using Payload Cloud, head over to GitHub and
           clone it to your local machine. It will be under the{" "}
