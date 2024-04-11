@@ -1,4 +1,5 @@
 import { slateEditor } from "@payloadcms/richtext-slate";
+import payload from "payload";
 import type { CollectionConfig } from "payload/types";
 
 import { admins } from "../../access/admins";
@@ -105,6 +106,24 @@ const Changelogs: CollectionConfig = {
       ],
     },
     slugField(),
+  ],
+  endpoints: [
+    {
+      path: "/slug/:slug",
+      method: "get",
+      handler: async (req, res, next) => {
+        const data = await payload.find({
+          collection: "changelogs",
+          where: { slug: { equals: req.params.slug } },
+          limit: 1,
+        });
+        if (data.docs.length === 0) {
+          res.status(404).send({ error: "not found" });
+        } else {
+          res.status(200).send(data.docs[0]);
+        }
+      },
+    },
   ],
 };
 
