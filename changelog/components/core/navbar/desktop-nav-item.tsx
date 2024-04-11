@@ -5,7 +5,7 @@ import React from "react";
 export interface DesktopNavItemProps {
   title: string;
   type: "external-link" | "internal-link";
-  href?: string;
+  link?: string;
   isActive?: boolean;
   mode?: "light" | "dark";
 }
@@ -15,7 +15,7 @@ export function DesktopNavItem(props: DesktopNavItemProps) {
     props.type !== "internal-link"
       ? React.Fragment
       : (linkProps: { children: React.ReactNode }) => (
-          <Link href={props.href} passHref prefetch={false} {...linkProps} />
+          <Link href={props.link} passHref prefetch={false} {...linkProps} />
         );
 
   const staticColor = props.mode === "dark" ? "white" : "purple.900";
@@ -27,7 +27,7 @@ export function DesktopNavItem(props: DesktopNavItemProps) {
         color={props.isActive ? "purple.500" : staticColor}
         as={props.type === "external-link" ? "a" : "div"}
         {...(props.type === "external-link" && {
-          href: props.href,
+          href: props.link,
           rel: "noreferrer noopener",
         })}
       >

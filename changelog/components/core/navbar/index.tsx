@@ -1,34 +1,26 @@
-// import { useAuth } from "unbundled-core/hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import NextImage from "next/image";
 import dynamic from "next/dynamic";
 import { defaultPx } from "lib/utils/default-container-px";
-// import { NextResponsiveImage } from "../next-responsive-image";
-import { gradients } from "lib/constants/gradients";
 import {
   Box,
   Button,
   Container,
   Flex,
   HStack,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
   Text,
   useClipboard,
-  useColorModeValue,
   useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { NavbarMobileMenuProps } from "./navbar-mobile-menu";
 import { DesktopNavItem, desktopNavItemStyle } from "./desktop-nav-item";
 import { NextResponsiveImage } from "../next-responsive-image";
-import { SelectedTick } from "../custom-icons/selected-tick";
 import { ToggleTheme } from "components/layout/toggle-theme";
+import api from "lib/api/fetch";
 
 const DynamicNavbarMobileMenu = dynamic<NavbarMobileMenuProps>(
   () => import("./navbar-mobile-menu").then((mod) => mod.NavbarMobileMenu),
@@ -53,7 +45,7 @@ const ROUTES = [
 ] as const;
 
 interface NavbarProps {
-  activeHref?: typeof ROUTES[number]["href"] | "/" | "/feature-launches" | "/ai";
+  activeHref?: (typeof ROUTES)[number]["href"] | "/" | "/feature-launches" | "/ai";
   mode?: "light" | "dark";
 }
 
@@ -61,9 +53,9 @@ function Navbar(props: NavbarProps) {
   // const { loggedIn } = useAuth();
   const { isOpen: isMobileMenuOpen, onToggle: onMobileMenuToggle } = useDisclosure();
 
-  const isHome = props.activeHref === "/";
-  const isFeatureLaunches = props.activeHref === "/feature-launches";
-  const isAI = props.activeHref === "/ai";
+  const [headerNav, setHeaderNav] = useState<
+    { link: { type: "custom"; newTab: boolean; url: string; label: string }; id: string }[]
+  >([]);
 
   const [showLogoMenu, setShowLogoMenu] = useState(false);
   const { onCopy: onCopyLogo } = useClipboard(logoSvg);
@@ -83,7 +75,18 @@ function Navbar(props: NavbarProps) {
     });
   };
 
-  // const loggedIn = false;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/api/globals/header?draft=false&depth=1");
+        setHeaderNav(response?.data?.navItems);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -199,114 +202,15 @@ function Navbar(props: NavbarProps) {
           </Box>
           {/* Navigation items */}
           <HStack spacing={[0, 0, 4, 12, 20]} align="center">
-            {/* Solution tab with popup menu */}
-            <Popover variant="responsive" trigger="hover">
-              <PopoverTrigger>
-                <HStack role="group" spacing={[1]}>
-                  <Text
-                    {...desktopNavItemStyle}
-                    {...(props.mode === "dark" && {
-                      color: "white",
-                    })}
-                  >
-                    Features
-                  </Text>
-                  <ChevronDownIcon
-                    boxSize={[5]}
-                    {...(props.mode === "dark" && {
-                      color: "white",
-                    })}
-                    _groupHover={{
-                      color: "primary",
-                    }}
-                  />
-                </HStack>
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent
-                  boxShadow="0px 2px 8px rgba(104, 104, 247, 0.1);"
-                  background={useColorModeValue("black", "white")}
-                  border="1px solid #F8F9FA"
-                  rounded="2xl"
-                  minWidth="unset"
-                  width="unset"
-                >
-                  <Box p={[6]}>
-                    <VStack alignItems="start" spacing={[6]}>
-                      <HStack w="200px" justify={"space-between"}>
-                        <Text
-                          fontWeight="medium"
-                          color="landing.almostBlack.500"
-                          _hover={{ color: "primary", cursor: "pointer" }}
-                          as="a"
-                          href="https://june.so/"
-                        >
-                          Product Analytics
-                        </Text>
-                        {isHome && <SelectedTick />}
-                      </HStack>
-                      <HStack w="200px" justify="space-between">
-                        <Flex gap={3}>
-                          <Text
-                            fontWeight="medium"
-                            color="landing.almostBlack.500"
-                            as="a"
-                            href="https://june.so/feature-launches"
-                            _hover={{ color: "primary", cursor: "pointer" }}
-                          >
-                            Feature Report
-                          </Text>
-                        </Flex>
-                        {isFeatureLaunches && <SelectedTick />}
-                      </HStack>
-                      <HStack>
-                        <Text
-                          fontWeight="medium"
-                          color="landing.almostBlack.500"
-                          as="a"
-                          href="https://qualify.june.so/"
-                          _hover={{ color: "primary", cursor: "pointer" }}
-                        >
-                          Qualification Bot
-                        </Text>
-                      </HStack>
-                      <HStack w="200px" justify="space-between">
-                        <Flex gap={3}>
-                          <Text
-                            fontWeight="medium"
-                            color="landing.almostBlack.500"
-                            as="a"
-                            href="https://june.so/ai"
-                            _hover={{ color: "primary", cursor: "pointer" }}
-                          >
-                            June AI
-                          </Text>
-                          <Text
-                            fontWeight="semibold"
-                            fontSize="xs"
-                            color="white"
-                            bgGradient={gradients["PRIMARY_LIGHTER"]}
-                            px={[1.5]}
-                            py={[1]}
-                            rounded="md"
-                          >
-                            New
-                          </Text>
-                        </Flex>
-                        {isAI && <SelectedTick />}
-                      </HStack>
-                    </VStack>
-                  </Box>
-                </PopoverContent>
-              </Portal>
-            </Popover>
             {/* Rest of routes */}
-            {ROUTES.map((route) => (
+            {headerNav?.map((nav) => (
               <DesktopNavItem
-                key={route.href}
+                key={nav.id}
                 mode={props.mode}
-                {...route}
-                isActive={props.activeHref === route.href}
+                link={nav.link.url}
+                title={nav.link.label}
+                type="external-link"
+                isActive={props.activeHref === nav.link.url}
               />
             ))}
           </HStack>
