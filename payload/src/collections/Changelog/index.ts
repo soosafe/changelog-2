@@ -1,3 +1,4 @@
+import { slateEditor } from "@payloadcms/richtext-slate";
 import type { CollectionConfig } from "payload/types";
 
 import { admins } from "../../access/admins";
@@ -12,13 +13,6 @@ const Changelogs: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "updatedAt"],
-    preview: (doc) => {
-      return `${
-        process.env.PAYLOAD_PUBLIC_SERVER_URL
-      }/next/preview?url=${encodeURIComponent(
-        `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/changelogs/${doc?.slug}`
-      )}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`;
-    },
   },
   hooks: {
     beforeChange: [populatePublishedAt],
@@ -59,6 +53,27 @@ const Changelogs: CollectionConfig = {
           },
         ],
       },
+    },
+    {
+      name: "content",
+      type: "richText",
+      required: true,
+      editor: slateEditor({
+        admin: {
+          elements: [
+            "blockquote",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "link",
+            "upload",
+          ],
+          leaves: ["bold", "italic", "underline"],
+        },
+      }),
     },
     {
       name: "media",
