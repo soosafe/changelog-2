@@ -68,6 +68,8 @@ const Changelogs: CollectionConfig = {
             "h4",
             "h5",
             "h6",
+            "ol",
+            "ul",
             "link",
             "upload",
           ],
