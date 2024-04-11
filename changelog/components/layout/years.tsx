@@ -1,4 +1,4 @@
-import { IAggregatedChangelogs, IImagePreviewMeta } from "lib/models/view";
+import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import dayjs from "dayjs";
 import MediumGrid from "components/core/years/medium-grid";
 import LargeGrid from "components/core/years/large-grid";
@@ -22,7 +22,7 @@ const Years = ({ yearChangelogsMap }: IYearsProps) => {
     return dateB.getTime() - dateA.getTime();
   });
 
-  const sortedChangelogsByYear: IImagePreviewMeta[][] = sortedYearKeys.map((year) => {
+  const sortedChangelogsByYear: IChangelogPreviewMeta[][] = sortedYearKeys.map((year) => {
     return yearChangelogsMap[year];
   });
 

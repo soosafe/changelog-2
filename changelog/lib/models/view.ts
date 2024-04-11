@@ -1,16 +1,28 @@
-export interface IImagePreviewMeta {
-  imageUrl: string;
-  slug: string;
+export interface IChangelogPreviewMeta {
+  title: string;
   publishedAt: string;
-  weeklyViewPage: number;
-  monthlyViewPage: number;
+  slug: string;
+  image: {
+    url: string;
+  };
+  authors: {
+    id: string;
+    name: string;
+    avatar: { url: string };
+  }[];
+  meta: {
+    title: string;
+    description: string;
+    image: {
+      url: string;
+    };
+  };
 }
 
 export interface IYearlyChangelog {
-  changelogs: IImagePreviewMeta[];
-  monthlyViewPage: number;
+  changelogs: IChangelogPreviewMeta[];
 }
 
 export interface IAggregatedChangelogs {
-  [key: string]: IImagePreviewMeta[];
+  [key: string]: IChangelogPreviewMeta[];
 }

@@ -30,6 +30,13 @@ const Users: CollectionConfig = {
       type: "text",
     },
     {
+      name: "avatar",
+      type: "upload",
+      relationTo: "media",
+      required: true,
+    },
+
+    {
       name: "roles",
       type: "select",
       hasMany: true,

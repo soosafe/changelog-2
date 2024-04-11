@@ -1,7 +1,7 @@
-import { Box, Grid, HStack, Image, Skeleton, useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, Grid, HStack, Image, useColorModeValue, VStack } from "@chakra-ui/react";
 import MoreItems from "components/core/more-items";
 import dayjs from "dayjs";
-import { IAggregatedChangelogs, IImagePreviewMeta } from "lib/models/view";
+import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import { useRouter } from "next/router";
 import Timeline from "./timeline";
 import React from "react";
@@ -16,7 +16,9 @@ interface IMonthsProps {
 const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) => {
   const router = useRouter();
 
-  const sortedChangelogsArrayByMonth: IImagePreviewMeta[][] = Object.keys(monthChangelogsMap || {})
+  const sortedChangelogsArrayByMonth: IChangelogPreviewMeta[][] = Object.keys(
+    monthChangelogsMap || {}
+  )
     .sort((a, b) => {
       const dateB = new Date(b);
       const dateA = new Date(a);
@@ -117,7 +119,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                         }
                         height="100%"
                       >
-                        {changelogs.map(({ imageUrl, slug, publishedAt }, index) => (
+                        {changelogs.map(({ image, slug, publishedAt }, index) => (
                           <Box key={index}>
                             <motion.div
                               layoutId={index === 0 && isInfiniteScrollingView ? slug : ``}
@@ -132,7 +134,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                               style={{ height: "100%", width: "100%" }}
                             >
                               <Image
-                                src={imageUrl}
+                                src={image.url}
                                 alt={`${Object.keys(monthChangelogsMap)[index]} - ${index}`}
                                 objectFit={"cover"}
                                 minHeight={["176px", "100%", "360px"]}
@@ -167,7 +169,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                           style={{ overflow: "hidden", height: "100%" }}
                         >
                           <Image
-                            src={changelogs[0]?.imageUrl}
+                            src={changelogs[0]?.image.url}
                             alt={`${Object.keys(monthChangelogsMap)[index]} - ${0}`}
                             objectFit={"cover"}
                             minHeight={["176px", "176px", "360px"]}
@@ -181,10 +183,10 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                           />
                         </motion.div>
                         <VStack height="100%">
-                          {changelogs.slice(1, 3).map(({ imageUrl, publishedAt }, index) => (
+                          {changelogs.slice(1, 3).map(({ image, publishedAt }, index) => (
                             <Image
                               key={index}
-                              src={imageUrl}
+                              src={image.url}
                               alt={`${Object.keys(monthChangelogsMap)[index]} - ${index}`}
                               objectFit={"cover"}
                               maxHeight="176px"

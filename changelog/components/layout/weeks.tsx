@@ -1,28 +1,23 @@
-import dynamic from "next/dynamic";
+import { ChangelogLayout, ChangelogLayoutProps } from "components/changelog-layout";
 import React from "react";
 
 interface IWeeksProps {
-  slugs: string[];
+  changelogs: ChangelogLayoutProps[];
   isInfiniteScrollingView?: boolean;
 }
 
-const Weeks = ({ slugs, isInfiniteScrollingView }: IWeeksProps) => {
-  const Articles = React.useMemo(() => {
-    return slugs.map((slug) => dynamic(() => import(`../../pages/changelogs/${slug}.mdx`)));
-  }, [slugs]);
-
+const Weeks = ({ changelogs, isInfiniteScrollingView }: IWeeksProps) => {
   return (
     <>
-      {Articles.map((Article, index) => (
-        // @ts-ignore
-        <Article
+      {changelogs.map((changelog, index) => (
+        <ChangelogLayout
           key={index}
-          // @ts-ignore
           index={index}
           hideLayout={true}
           hideHead={true}
           hideAuthors={true}
           isInfiniteScrollingView={isInfiniteScrollingView}
+          {...changelog}
         />
       ))}
     </>
