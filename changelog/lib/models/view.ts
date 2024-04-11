@@ -15,10 +15,13 @@ export interface IChangelogPreviewMeta {
       url: string;
     };
   };
+  weeklyViewPage: number;
+  monthlyViewPage: number;
 }
 
 export interface IYearlyChangelog {
   changelogs: IChangelogPreviewMeta[];
+  monthlyViewPage: number;
 }
 
 export interface IAggregatedChangelogs {

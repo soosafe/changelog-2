@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useTimelineStore from "lib/state/use-timeline-store";
-import { IAggregatedChangelogs } from "lib/models/view";
+import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import { generateRssFeed } from "lib/generate-rss-feed";
 import Years from "components/layout/years";
 import Weeks from "components/layout/weeks";
@@ -89,7 +89,6 @@ export async function getStaticProps({ params }) {
 
   const start = parseInt(params?.page ?? 0) * ITEMS_PER_PAGE;
   const end = start + ITEMS_PER_PAGE;
-  const recents = meta.slice(start, end).map((item) => item.slug);
 
   // aggregate images for monthly changelogs
   const monthChangelogsMap: IAggregatedChangelogs = meta.reduce((acc, item, index) => {
@@ -105,7 +104,8 @@ export async function getStaticProps({ params }) {
       mediaUrl: item.media.url,
       slug: item.slug,
       publishedAt: item.publishedAt,
-    } as any);
+      weeklyViewPage: Math.floor(index / ITEMS_PER_PAGE),
+    } as IChangelogPreviewMeta);
     return acc;
   }, {});
 
@@ -127,7 +127,15 @@ export async function getStaticProps({ params }) {
       mediaUrl: item.media.url,
       slug: item.slug,
       publishedAt: item.publishedAt,
-    } as any);
+      weeklyViewPage: Math.floor(index / ITEMS_PER_PAGE),
+      monthlyViewPage: Math.floor(
+        (Object.keys(monthChangelogsMap)
+          .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+          .indexOf(`${year}-${date.getMonth() + 1}`) +
+          1) /
+          ITEMS_PER_PAGE
+      ),
+    } as IChangelogPreviewMeta);
     return acc;
   }, {});
 

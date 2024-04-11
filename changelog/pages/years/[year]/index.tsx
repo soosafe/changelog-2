@@ -1,11 +1,11 @@
 import Months from "components/layout/months";
 import { generateRssFeed } from "lib/generate-rss-feed";
-import { getArticleSlugs } from "lib/get-articles-slugs";
 import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import { IPageProps } from "pages";
 import React, { useEffect, useState } from "react";
 import { MainLayout } from "components/layout/main-layout";
 import { useColorModeValue } from "@chakra-ui/react";
+import api from "lib/api/fetch";
 
 const ITEMS_PER_PAGE = 4;
 const MONTHS_PER_RENDER = 12;
@@ -69,15 +69,10 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }) => {
   await generateRssFeed();
-  const slugs = getArticleSlugs();
 
-  const results = await Promise.allSettled(
-    slugs.map((slug) => import(`../../changelogs/${slug}.mdx`))
-  );
+  const changelogs = await api.get("/api/changelogs");
 
-  const meta = results
-    .map((res) => res.status === "fulfilled" && res.value.meta)
-    .filter((item) => item);
+  const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);
 
   meta.sort((a, b) => {
     const dateB = new Date(b.publishedAt);
@@ -99,8 +94,9 @@ export const getStaticProps = async ({ params }) => {
     if (!acc[key]) {
       acc[key] = [];
     }
+
     acc[key].push({
-      imageUrl: item.headerImage,
+      mediaUrl: item.media.url,
       slug: item.slug,
       publishedAt: item.publishedAt,
       weeklyViewPage: Math.floor(index / ITEMS_PER_PAGE),
@@ -121,7 +117,7 @@ export const getStaticProps = async ({ params }) => {
       slugs: recents,
       changelogsMap: { months: recentMonthChangelogsMap },
       totalItems: {
-        weeks: slugs.length,
+        weeks: changelogs.data.docs.length,
         months: Object.keys(monthChangelogsMap).length,
       },
     },
