@@ -35,7 +35,6 @@ const Users: CollectionConfig = {
       relationTo: "media",
       required: true,
     },
-
     {
       name: "roles",
       type: "select",
@@ -59,6 +58,10 @@ const Users: CollectionConfig = {
         create: admins,
         update: admins,
       },
+    },
+    {
+      name: "position",
+      type: "text",
     },
   ],
   timestamps: true,
