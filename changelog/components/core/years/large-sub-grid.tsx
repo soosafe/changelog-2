@@ -1,25 +1,23 @@
 import { Box, Grid, GridItem, Image, Skeleton } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { IImagePreviewMeta } from "lib/models/view";
+import { IChangelogPreviewMeta } from "lib/models/view";
 import { useRouter } from "next/router";
 
-
 interface ISubGridProps {
-  changelogs: IImagePreviewMeta[];
+  changelogs: IChangelogPreviewMeta[];
   rowLength?: number;
 }
 
 const LargeSubGrid = (props: ISubGridProps) => {
   const { changelogs, rowLength } = props;
-  const router = useRouter()
-
+  const router = useRouter();
 
   return (
     <Grid gap="2px" templateColumns={`repeat(${changelogs.length}, 1fr)`}>
-      {changelogs.map(({ imageUrl, slug, publishedAt }, subI) => (
+      {changelogs.map(({ mediaUrl, slug, publishedAt }, subI) => (
         <GridItem key={subI}>
           <Image
-            src={imageUrl}
+            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
             alt={slug}
             height={rowLength - 1 <= 4 ? "198px" : "98px"}
             width={`${400 / changelogs.length - 2}px`}

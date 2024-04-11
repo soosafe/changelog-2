@@ -22,7 +22,7 @@ const SmallGrid = (props: IGridProps) => {
           style={{ overflow: "hidden" }}
         >
           <Image
-            src={changelogs[0]?.imageUrl}
+            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${changelogs[0].mediaUrl}`}
             alt={changelogs[0]?.slug}
             minHeight={["176px", "176px", "360px"]}
             objectFit={"cover"}
@@ -39,10 +39,10 @@ const SmallGrid = (props: IGridProps) => {
         </motion.div>
       </Box>
       <VStack width="176px" height="100%">
-        {changelogs.slice(1, changelogs.length).map(({ imageUrl, slug, publishedAt}, index) => (
+        {changelogs.slice(1, changelogs.length).map(({ mediaUrl, slug, publishedAt }, index) => (
           <Image
             key={index}
-            src={imageUrl}
+            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
             alt={slug}
             objectFit={"cover"}
             maxHeight="176px"

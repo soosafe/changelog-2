@@ -1,6 +1,6 @@
-import { IImagePreviewMeta } from "lib/models/view";
+import { IChangelogPreviewMeta } from "lib/models/view";
 
 export interface IGridProps {
-  changelogs: IImagePreviewMeta[];
+  changelogs: IChangelogPreviewMeta[];
   isFirstItem?: boolean; // used for animating the first item
 }

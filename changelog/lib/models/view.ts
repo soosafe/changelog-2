@@ -2,9 +2,7 @@ export interface IChangelogPreviewMeta {
   title: string;
   publishedAt: string;
   slug: string;
-  image: {
-    url: string;
-  };
+  mediaUrl: string;
   authors: {
     id: string;
     name: string;

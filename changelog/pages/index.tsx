@@ -16,14 +16,16 @@ const ITEMS_PER_PAGE = 4;
 
 export interface IPageProps {
   changelogs: any;
-  // changelogsMap: { months: IAggregatedChangelogs; years: IAggregatedChangelogs };
-  // totalItems: { weeks: number; months: number; years: number };
+  changelogsMap: { months: IAggregatedChangelogs; years: IAggregatedChangelogs };
+  totalItems: { weeks: number; months: number; years: number };
 }
 
-const Page = ({ changelogs, totalItems }: IPageProps) => {
+const Page = ({ changelogs, changelogsMap, totalItems }: IPageProps) => {
   const timeline = useTimelineStore();
   const router = useRouter();
   const page = parseInt((router.query?.page || "0") as string);
+
+  console.log("map", changelogsMap);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,8 +36,6 @@ const Page = ({ changelogs, totalItems }: IPageProps) => {
       });
     }
   }, [timeline.view]);
-
-  console.log("mantap", changelogs);
 
   return (
     <MainLayout
@@ -67,12 +67,12 @@ const Page = ({ changelogs, totalItems }: IPageProps) => {
           <TabPanel padding={0}>
             <Weeks changelogs={changelogs} />
           </TabPanel>
-          {/* <TabPanel padding={0}> */}
-          {/*   <Months monthChangelogsMap={changelogsMap.months} /> */}
-          {/* </TabPanel> */}
-          {/* <TabPanel padding={0}> */}
-          {/*   <Years yearChangelogsMap={changelogsMap.years} /> */}
-          {/* </TabPanel> */}
+          <TabPanel padding={0}>
+            <Months monthChangelogsMap={changelogsMap?.months} />
+          </TabPanel>
+          <TabPanel padding={0}>
+            <Years yearChangelogsMap={changelogsMap?.years} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </MainLayout>
@@ -85,73 +85,73 @@ export async function getStaticProps({ params }) {
   // await generateRssFeed();
   // await generateLatestChangelogsJson();
   //
-  // const meta = changelogs?.map((changelog) => changelog).filter((item) => item);
-  //
-  // meta.sort((a, b) => {
-  //   const dateB = new Date(b.publishedAt);
-  //   const dateA = new Date(a.publishedAt);
-  //   return dateB.getTime() - dateA.getTime();
-  // });
-  //
-  // const start = parseInt(params?.page ?? 0) * ITEMS_PER_PAGE;
-  // const end = start + ITEMS_PER_PAGE;
-  // const recents = meta.slice(start, end).map((item) => item.slug);
-  //
-  // // aggregate images for monthly changelogs
-  // const monthChangelogsMap: IAggregatedChangelogs = meta.reduce((acc, item, index) => {
-  //   const date = new Date(item.publishedAt);
-  //   const year = date.getFullYear();
-  //   const month = date.getMonth() + 1;
-  //   const key = `${year}-${month}`;
-  //   if (!acc[key]) {
-  //     acc[key] = [];
-  //   }
-  //
-  //   acc[key].push({
-  //     imageUrl: item.image.url,
-  //     slug: item.slug,
-  //     publishedAt: item.publishedAt,
-  //   } as any);
-  //   return acc;
-  // }, {});
-  //
-  // const recentMonthChangelogsMap: IAggregatedChangelogs = Object.keys(monthChangelogsMap)
-  //   .slice(start, end)
-  //   .reduce((acc, key) => {
-  //     acc[key] = monthChangelogsMap[key];
-  //     return acc;
-  //   }, {});
-  //
-  // const yearsChangelogsMap: IAggregatedChangelogs = meta.reduce((acc, item, index) => {
-  //   const date = new Date(item.publishedAt);
-  //   const year = date.getFullYear().toString();
-  //   if (!acc[year]) {
-  //     acc[year] = [];
-  //   }
-  //
-  //   acc[year].push({
-  //     imageUrl: item.image.url,
-  //     slug: item.slug,
-  //     publishedAt: item.publishedAt,
-  //   } as any);
-  //   return acc;
-  // }, {});
-  //
-  // const recentYearsChangelogsMap: IAggregatedChangelogs = Object.keys(yearsChangelogsMap)
-  //   .slice(start, end)
-  //   .reduce((acc, key) => {
-  //     acc[key] = yearsChangelogsMap[key];
-  //     return acc;
-  //   }, {});
+  const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);
+
+  meta.sort((a, b) => {
+    const dateB = new Date(b.publishedAt);
+    const dateA = new Date(a.publishedAt);
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const start = parseInt(params?.page ?? 0) * ITEMS_PER_PAGE;
+  const end = start + ITEMS_PER_PAGE;
+  const recents = meta.slice(start, end).map((item) => item.slug);
+
+  // aggregate images for monthly changelogs
+  const monthChangelogsMap: IAggregatedChangelogs = meta.reduce((acc, item, index) => {
+    const date = new Date(item.publishedAt);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const key = `${year}-${month}`;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+
+    acc[key].push({
+      mediaUrl: item.media.url,
+      slug: item.slug,
+      publishedAt: item.publishedAt,
+    } as any);
+    return acc;
+  }, {});
+
+  const recentMonthChangelogsMap: IAggregatedChangelogs = Object.keys(monthChangelogsMap)
+    .slice(start, end)
+    .reduce((acc, key) => {
+      acc[key] = monthChangelogsMap[key];
+      return acc;
+    }, {});
+
+  const yearsChangelogsMap: IAggregatedChangelogs = meta.reduce((acc, item, index) => {
+    const date = new Date(item.publishedAt);
+    const year = date.getFullYear().toString();
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+
+    acc[year].push({
+      mediaUrl: item.media.url,
+      slug: item.slug,
+      publishedAt: item.publishedAt,
+    } as any);
+    return acc;
+  }, {});
+
+  const recentYearsChangelogsMap: IAggregatedChangelogs = Object.keys(yearsChangelogsMap)
+    .slice(start, end)
+    .reduce((acc, key) => {
+      acc[key] = yearsChangelogsMap[key];
+      return acc;
+    }, {});
 
   return {
     props: {
       changelogs: changelogs.data.docs,
-      // changelogsMap: { months: recentMonthChangelogsMap, years: recentYearsChangelogsMap },
+      changelogsMap: { months: recentMonthChangelogsMap, years: recentYearsChangelogsMap },
       totalItems: {
         weeks: changelogs.data.docs.length,
-        // months: Object.keys(monthChangelogsMap).length,
-        // years: Object.keys(yearsChangelogsMap).length,
+        months: Object.keys(monthChangelogsMap).length,
+        years: Object.keys(yearsChangelogsMap).length,
       },
     },
     revalidate: 1,

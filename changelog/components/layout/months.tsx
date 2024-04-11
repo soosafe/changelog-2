@@ -119,7 +119,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                         }
                         height="100%"
                       >
-                        {changelogs.map(({ image, slug, publishedAt }, index) => (
+                        {changelogs.map(({ mediaUrl, slug, publishedAt }, index) => (
                           <Box key={index}>
                             <motion.div
                               layoutId={index === 0 && isInfiniteScrollingView ? slug : ``}
@@ -134,7 +134,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                               style={{ height: "100%", width: "100%" }}
                             >
                               <Image
-                                src={image.url}
+                                src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
                                 alt={`${Object.keys(monthChangelogsMap)[index]} - ${index}`}
                                 objectFit={"cover"}
                                 minHeight={["176px", "100%", "360px"]}
@@ -169,7 +169,7 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                           style={{ overflow: "hidden", height: "100%" }}
                         >
                           <Image
-                            src={changelogs[0]?.image.url}
+                            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${changelogs[0].mediaUrl}`}
                             alt={`${Object.keys(monthChangelogsMap)[index]} - ${0}`}
                             objectFit={"cover"}
                             minHeight={["176px", "176px", "360px"]}
@@ -183,10 +183,10 @@ const Months = ({ monthChangelogsMap, isInfiniteScrollingView }: IMonthsProps) =
                           />
                         </motion.div>
                         <VStack height="100%">
-                          {changelogs.slice(1, 3).map(({ image, publishedAt }, index) => (
+                          {changelogs.slice(1, 3).map(({ mediaUrl, publishedAt }, index) => (
                             <Image
                               key={index}
-                              src={image.url}
+                              src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
                               alt={`${Object.keys(monthChangelogsMap)[index]} - ${index}`}
                               objectFit={"cover"}
                               maxHeight="176px"

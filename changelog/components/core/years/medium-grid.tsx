@@ -8,7 +8,6 @@ const MediumGrid = (props: IGridProps) => {
   const { changelogs } = props;
   const router = useRouter();
 
-
   return changelogs.length < 9 ? (
     <VStack spacing="8px">
       {changelogs
@@ -24,8 +23,8 @@ const MediumGrid = (props: IGridProps) => {
         .reverse()
         .map((rowItems, i) => (
           <Grid key={i} gap={"8px"} templateColumns={`repeat(${rowItems.length}, 1fr)`}>
-            {rowItems.reverse().map(({ imageUrl, slug }, index) =>
-              imageUrl ? (
+            {rowItems.reverse().map(({ mediaUrl, slug }, index) =>
+              mediaUrl ? (
                 <motion.div
                   layoutId={i === 0 && props.isFirstItem ? rowItems[0].slug : ``}
                   initial={{
@@ -38,7 +37,7 @@ const MediumGrid = (props: IGridProps) => {
                 >
                   <Image
                     key={index}
-                    src={imageUrl}
+                    src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
                     alt={slug}
                     height="100%"
                     objectFit={"cover"}
@@ -60,7 +59,7 @@ const MediumGrid = (props: IGridProps) => {
       height="100%"
       maxHeight="601px"
     >
-      {changelogs.slice(0, 9).map(({ imageUrl, slug, publishedAt }, index) => (
+      {changelogs.slice(0, 9).map(({ mediaUrl, slug, publishedAt }, index) => (
         <GridItem
           key={index}
           rowSpan={[0, 2, 3].includes(index) ? 3 : 2}
@@ -77,7 +76,7 @@ const MediumGrid = (props: IGridProps) => {
             style={{ height: "100%" }}
           >
             <Image
-              src={imageUrl}
+              src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${mediaUrl}`}
               alt={slug}
               height="100%"
               width="100%"

@@ -1,7 +1,7 @@
 import Months from "components/layout/months";
 import { generateRssFeed } from "lib/generate-rss-feed";
 import { getArticleSlugs } from "lib/get-articles-slugs";
-import { IAggregatedChangelogs, IImagePreviewMeta } from "lib/models/view";
+import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import { IPageProps } from "pages";
 import React, { useEffect, useState } from "react";
 import { MainLayout } from "components/layout/main-layout";
@@ -104,7 +104,7 @@ export const getStaticProps = async ({ params }) => {
       slug: item.slug,
       publishedAt: item.publishedAt,
       weeklyViewPage: Math.floor(index / ITEMS_PER_PAGE),
-    } as IImagePreviewMeta);
+    } as IChangelogPreviewMeta);
     return acc;
   }, {});
 
