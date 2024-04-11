@@ -60,19 +60,7 @@ const Changelogs: CollectionConfig = {
       required: true,
       editor: slateEditor({
         admin: {
-          elements: [
-            "blockquote",
-            "h1",
-            "h2",
-            "h3",
-            "h4",
-            "h5",
-            "h6",
-            "ol",
-            "ul",
-            "link",
-            "upload",
-          ],
+          elements: ["blockquote", "h1", "h2", "ol", "ul", "link"],
           leaves: ["bold", "italic", "underline"],
         },
       }),
