@@ -25,6 +25,7 @@
     "@next/mdx": "^13.0.7",
     "axios": "^1.6.8",
     "dayjs": "^1.10.7",
+    "escape-html": "^1.0.3",
     "extracted-loader": "^1.0.7",
     "feed": "^4.2.2",
     "file-loader": "^6.2.0",
@@ -40,6 +41,7 @@
     "react-lazyload": "^3.2.0",
     "react-markdown": "^8.0.0",
     "remark-gfm": "^3.0.1",
+    "slate": "^0.102.0",
     "url-loader": "^4.1.1",
     "zustand": "^4.3.8"
   },

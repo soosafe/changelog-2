@@ -6,64 +6,17 @@ import { motion } from "framer-motion";
 import dayjs from "dayjs";
 import { Contributor } from "components/contributor";
 import { ReactNode } from "@mdx-js/react/lib";
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  Image,
-  // ListItem,
-  // OrderedList,
-  // Text,
-  // UnorderedList,
-  useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Image, useColorModeValue, VStack } from "@chakra-ui/react";
 import Timeline from "./layout/timeline";
 import { MainLayout } from "./layout/main-layout";
 import usePreviousPageUrl from "lib/state/use-previous-page-url-store";
-
-// const components: MDXComponents = {
-//   h1: (props) => (
-//     <Heading
-//       as="h1"
-//       fontSize={["2xl", "2xl", "32px"]}
-//       color={useColorModeValue("#000", "#fff")}
-//       {...props}
-//     />
-//   ),
-//   h2: (props) => <Text fontWeight="bold" fontSize="xl" mt={12} mb={6} {...props} />,
-//   p: (props) => (
-//     <Text
-//       my={6}
-//       color={useColorModeValue("#495057", "#fff")}
-//       fontSize="16px"
-//       lineHeight="24px"
-//       {...props}
-//     />
-//   ),
-//   a: (props) => (
-//     <Text as="a" href={props.href} rel="noopener noreferrer" color="#6868F7" fontWeight="bold">
-//       {props.children}
-//     </Text>
-//   ),
-//   ul: (props) => <UnorderedList spacing={4} {...props} />,
-//   ol: (props) => <OrderedList spacing={4} {...props} />,
-//   li: (props) => (
-//     <ListItem
-//       color={useColorModeValue("#495057", "#fff")}
-//       lineHeight="32px"
-//       fontSize="16px"
-//       _before={{ content: "unset" }}
-//       {...props}
-//     />
-//   ),
-// };
+import serialize from "./serialize-html";
 
 export interface ChangelogLayoutProps {
   title: string;
   publishedAt: string;
   slug: string;
+  content: string;
   media: {
     url: string;
   };
@@ -310,6 +263,7 @@ export const ChangelogLayout = (props: ChangelogLayoutProps) => {
             </motion.div>
           </VStack>
           {/* Article content */}
+          <div>{serialize(props.content)}</div>
           <motion.div
             initial={{ opacity: 0, y: props.hideLayout ? 0 : 20 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.2 } }}
