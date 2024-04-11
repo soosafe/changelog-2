@@ -1,6 +1,6 @@
-import type { Field } from "payload/types"
+import type { Field } from "payload/types";
 
-import deepMerge from "../utilities/deepMerge"
+import deepMerge from "../utilities/deepMerge";
 
 export const appearanceOptions = {
   primary: {
@@ -15,15 +15,15 @@ export const appearanceOptions = {
     label: "Default",
     value: "default",
   },
-}
+};
 
-export type LinkAppearances = "primary" | "secondary" | "default"
+export type LinkAppearances = "primary" | "secondary" | "default";
 
 type LinkType = (options?: {
-  appearances?: LinkAppearances[] | false
-  disableLabel?: boolean
-  overrides?: Record<string, unknown>
-}) => Field
+  appearances?: LinkAppearances[] | false;
+  disableLabel?: boolean;
+  overrides?: Record<string, unknown>;
+}) => Field;
 
 const link: LinkType = ({
   appearances,
@@ -41,25 +41,6 @@ const link: LinkType = ({
         type: "row",
         fields: [
           {
-            name: "type",
-            type: "radio",
-            options: [
-              {
-                label: "Internal link",
-                value: "reference",
-              },
-              {
-                label: "Custom URL",
-                value: "custom",
-              },
-            ],
-            defaultValue: "reference",
-            admin: {
-              layout: "horizontal",
-              width: "50%",
-            },
-          },
-          {
             name: "newTab",
             label: "Open in new tab",
             type: "checkbox",
@@ -73,19 +54,16 @@ const link: LinkType = ({
         ],
       },
     ],
-  }
+  };
 
   const linkTypes: Field[] = [
     {
       name: "url",
-      label: "Custom URL",
+      label: "URL",
       type: "text",
       required: true,
-      admin: {
-        condition: (_, siblingData) => siblingData?.type === "custom",
-      },
     },
-  ]
+  ];
 
   if (!disableLabel) {
     linkTypes.map((linkType) => ({
@@ -94,7 +72,7 @@ const link: LinkType = ({
         ...linkType.admin,
         width: "50%",
       },
-    }))
+    }));
 
     linkResult.fields.push({
       type: "row",
@@ -110,9 +88,9 @@ const link: LinkType = ({
           },
         },
       ],
-    })
+    });
   } else {
-    linkResult.fields = [...linkResult.fields, ...linkTypes]
+    linkResult.fields = [...linkResult.fields, ...linkTypes];
   }
 
   if (appearances !== false) {
@@ -120,12 +98,12 @@ const link: LinkType = ({
       appearanceOptions.default,
       appearanceOptions.primary,
       appearanceOptions.secondary,
-    ]
+    ];
 
     if (appearances) {
       appearanceOptionsToUse = appearances.map(
-        (appearance) => appearanceOptions[appearance],
-      )
+        (appearance) => appearanceOptions[appearance]
+      );
     }
 
     linkResult.fields.push({
@@ -136,10 +114,10 @@ const link: LinkType = ({
       admin: {
         description: "Choose how the link should be rendered.",
       },
-    })
+    });
   }
 
-  return deepMerge(linkResult, overrides)
-}
+  return deepMerge(linkResult, overrides);
+};
 
-export default link
+export default link;
