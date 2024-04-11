@@ -5,7 +5,6 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
 import { Contributor } from "components/contributor";
-import { ReactNode } from "@mdx-js/react/lib";
 import { Box, Divider, Flex, Heading, Image, useColorModeValue, VStack } from "@chakra-ui/react";
 import Timeline from "./layout/timeline";
 import { MainLayout } from "./layout/main-layout";
@@ -32,7 +31,7 @@ export interface ChangelogLayoutProps {
       url: string;
     };
   };
-  children: ReactNode;
+  children: React.ReactNode;
   hideLayout?: boolean;
   hideHead?: boolean;
   hideAuthors?: boolean;

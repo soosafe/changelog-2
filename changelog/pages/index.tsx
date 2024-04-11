@@ -1,10 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 import useTimelineStore from "lib/state/use-timeline-store";
-import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
-import { getArticleSlugs } from "lib/get-articles-slugs";
+import { IAggregatedChangelogs } from "lib/models/view";
 import { generateRssFeed } from "lib/generate-rss-feed";
-import { generateLatestChangelogsJson } from "lib/generate-latest-json";
 import Years from "components/layout/years";
 import Weeks from "components/layout/weeks";
 import Months from "components/layout/months";
@@ -24,8 +22,6 @@ const Page = ({ changelogs, changelogsMap, totalItems }: IPageProps) => {
   const timeline = useTimelineStore();
   const router = useRouter();
   const page = parseInt((router.query?.page || "0") as string);
-
-  console.log("map", changelogsMap);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,9 +78,7 @@ const Page = ({ changelogs, changelogsMap, totalItems }: IPageProps) => {
 export async function getStaticProps({ params }) {
   const changelogs = await api.get("/api/changelogs");
 
-  // await generateRssFeed();
-  // await generateLatestChangelogsJson();
-  //
+  await generateRssFeed();
   const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);
 
   meta.sort((a, b) => {
