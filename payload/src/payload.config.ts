@@ -17,6 +17,7 @@ import BeforeLogin from "./components/BeforeLogin";
 import BeforeDashboard from "./components/BeforeDashboard";
 import Header from "./globals/Header";
 import Footer from "./globals/Footer";
+import { Setting } from "./globals/Setting";
 
 const generateTitle: GenerateTitle = () => {
   return "Payload";
@@ -64,7 +65,7 @@ export default buildConfig({
   },
   editor: slateEditor({}),
   collections: [Users, Changelogs, Media],
-  globals: [Header, Footer],
+  globals: [Header, Footer, Setting],
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
