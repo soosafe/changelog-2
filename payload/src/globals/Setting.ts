@@ -12,8 +12,9 @@ export const Setting: GlobalConfig = {
       relationTo: "media",
     },
     {
-      name: "title",
-      type: "text",
+      name: "footer_logo",
+      type: "upload",
+      relationTo: "media",
     },
   ],
 };

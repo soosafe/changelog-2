@@ -22,22 +22,16 @@ export default function Layout({ children }: ILayoutProps) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Discover new updates and improvements to June." />
-        <meta name="image" content="https://changelog.june.so/social.png" />
+        <meta name="description" content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION} />
+        <meta name="image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/social.png`} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://changelog.june.so" />
-        <meta property="og:description" content="Discover new updates and improvements to June." />
-        <meta property="og:image" content="https://changelog.june.so/social.png" />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL} />
+        <meta property="og:description" content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION} />
+        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/social.png`} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://changelog.june.so" />
-        <meta name="twitter:description" content="Discover new updates and improvements to June." />
-        <meta name="twitter:image" content="https://changelog.june.so/social.png" />
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          title="June Changelog"
-          href="https://changelog.june.so/rss.xml"
-        />
+        <meta name="twitter:url" content={process.env.NEXT_PUBLIC_SITE_URL} />
+        <meta name="twitter:description" content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION} />
+        <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL}/social.png`} />
       </Head>
       <motion.div initial="hidden" animate="visible">
         <motion.div

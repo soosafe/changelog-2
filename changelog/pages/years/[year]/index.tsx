@@ -1,5 +1,4 @@
 import Months from "components/layout/months";
-import { generateRssFeed } from "lib/generate-rss-feed";
 import { IAggregatedChangelogs, IChangelogPreviewMeta } from "lib/models/view";
 import { IPageProps } from "pages";
 import React, { useEffect, useState } from "react";
@@ -68,8 +67,6 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params }) => {
-  await generateRssFeed();
-
   const changelogs = await api.get("/api/changelogs");
 
   const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);

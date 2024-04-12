@@ -26,7 +26,7 @@ function Navbar(props: NavbarProps) {
   const [headerNav, setHeaderNav] = useState<
     { link: { type: "custom"; newTab: boolean; url: string; label: string }; id: string }[]
   >([]);
-  const [setting, setSetting] = useState<{ logo: { url: string }; title: string }>([]);
+  const [setting, setSetting] = useState<{ logo: { url: string }; title: string } | null>(null);
 
   const [showLogoMenu, setShowLogoMenu] = useState(false);
 
@@ -62,14 +62,14 @@ function Navbar(props: NavbarProps) {
           <Flex direction="column">
             <Flex align="center" justify="space-between">
               <Flex p={4} as="a" href="/">
-                {setting.logo?.url ? (
+                {setting?.logo?.url ? (
                   <img
                     src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${setting?.logo?.url}`}
-                    alt={process.env.NEXT_PUBLIC_SITE_TITLE ?? setting?.title}
+                    alt={process.env.NEXT_PUBLIC_SITE_TITLE}
                     style={{ width: "100%", height: "32px" }}
                   />
                 ) : (
-                  <Heading as="h1">{setting.title ?? process.env.NEXT_PUBLIC_SITE_TITLE}</Heading>
+                  <Heading as="h1">{process.env.NEXT_PUBLIC_SITE_TITLE}</Heading>
                 )}
               </Flex>
               <Flex p={4} onClick={onMobileMenuToggle}>
@@ -103,11 +103,11 @@ function Navbar(props: NavbarProps) {
             }}
           >
             <Link href="/" passHref prefetch={false}>
-              {setting.logo?.url ? (
+              {setting?.logo?.url ? (
                 <NextResponsiveImage
                   display={["none", "none", "block"]}
                   src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${setting?.logo?.url}`}
-                  alt={process.env.NEXT_PUBLIC_SITE_TITLE ?? setting?.title}
+                  alt={process.env.NEXT_PUBLIC_SITE_TITLE}
                   width={["100px"]}
                   height={["32px"]}
                   cursor="pointer"
@@ -116,7 +116,7 @@ function Navbar(props: NavbarProps) {
                   })}
                 />
               ) : (
-                <Heading as="h1">{setting.title ?? process.env.NEXT_PUBLIC_SITE_TITLE}</Heading>
+                <Heading as="h1">{process.env.NEXT_PUBLIC_SITE_TITLE}</Heading>
               )}
             </Link>
           </Box>

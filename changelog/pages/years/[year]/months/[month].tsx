@@ -1,4 +1,3 @@
-import { generateRssFeed } from "lib/generate-rss-feed";
 import { IPageProps } from "pages";
 import React from "react";
 import dayjs from "dayjs";
@@ -80,8 +79,6 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params }) => {
-  await generateRssFeed();
-
   const changelogs = await api.get("/api/changelogs");
 
   const { month, year } = params;

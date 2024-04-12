@@ -43,9 +43,9 @@ export interface ChangelogLayoutProps {
 }
 
 export const ChangelogLayout = (props: ChangelogLayoutProps) => {
-  const title = `${props.title} | {}`;
+  const title = `${props.title}`;
   const description = props.meta.description;
-  const url = "https://changelog.june.so";
+  const url = process.env.NEXT_PUBLIC_SITE_URL;
 
   const { setPrevUrl } = usePreviousPageUrl();
   const router = useRouter();
@@ -106,12 +106,6 @@ export const ChangelogLayout = (props: ChangelogLayoutProps) => {
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={description} />
           <meta name="twitter:image" content={props.meta.image.url} />
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            title="June Changelog"
-            href="https://changelog.june.so/rss.xml"
-          />
         </Head>
       )}
       <Timeline
