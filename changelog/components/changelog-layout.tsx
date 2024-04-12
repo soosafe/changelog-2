@@ -23,6 +23,7 @@ export interface ChangelogLayoutProps {
     id: string;
     name: string;
     avatar: { url: string };
+    position: string;
   }[];
   meta: {
     title: string;
@@ -42,7 +43,7 @@ export interface ChangelogLayoutProps {
 }
 
 export const ChangelogLayout = (props: ChangelogLayoutProps) => {
-  const title = `${props.title} | June Changelog`;
+  const title = `${props.title} | {}`;
   const description = props.meta.description;
   const url = "https://changelog.june.so";
 

@@ -1,26 +1,22 @@
 import { generateRssFeed } from "lib/generate-rss-feed";
-import { getArticleSlugs } from "lib/get-articles-slugs";
 import { IPageProps } from "pages";
 import React from "react";
 import dayjs from "dayjs";
-import dynamic from "next/dynamic";
 import { MainLayout } from "components/layout/main-layout";
+import { ChangelogLayout } from "components/changelog-layout";
 import { useColorModeValue } from "@chakra-ui/react";
+import api from "lib/api/fetch";
 
-const Page = ({ slugs }: IPageProps) => {
-  const Articles = React.useMemo(() => {
-    return slugs.map((slug) => dynamic(() => import(`../../../../pages/changelogs/${slug}.mdx`)));
-  }, [slugs]);
-
+const Page = ({ changelogs }: IPageProps) => {
   React.useLayoutEffect(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash;
       const targetElementId = hash.slice(hash.indexOf("#") + 1);
-      console.log(">>>:", targetElementId, Articles[0]);
+      console.log(">>>:", targetElementId, changelogs[0]);
       if (
         targetElementId ===
         // first element in the list
-        slugs[0]
+        changelogs[0]
       ) {
         return;
       }
@@ -44,16 +40,15 @@ const Page = ({ slugs }: IPageProps) => {
 
   return (
     <MainLayout mode={useColorModeValue("light", "dark")} infiniteScrollingView="month">
-      {Articles.map((Article, index) => (
-        // @ts-ignore
-        <Article
-          key={slugs[index]}
-          // @ts-ignore
+      {changelogs?.map((changelog, index) => (
+        <ChangelogLayout
+          key={index}
           index={index}
           hideLayout={true}
           hideHead={true}
           hideAuthors={true}
           isInfiniteScrollingView={true}
+          {...changelog}
         />
       ))}
     </MainLayout>
@@ -86,16 +81,13 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }) => {
   await generateRssFeed();
-  const slugs = getArticleSlugs();
 
-  const results = await Promise.allSettled(
-    slugs.map((slug) => import(`../../../changelogs/${slug}.mdx`))
-  );
+  const changelogs = await api.get("/api/changelogs");
 
   const { month, year } = params;
 
-  const meta = results
-    .map((res) => res.status === "fulfilled" && res.value.meta)
+  const meta = changelogs.data?.docs
+    ?.map((changelog) => changelog)
     .filter((item) => {
       const publishedAt = dayjs(item.publishedAt);
 
@@ -108,13 +100,13 @@ export const getStaticProps = async ({ params }) => {
     return dateB.getTime() - dateA.getTime();
   });
 
-  const recents = meta.map((item) => item.slug);
+  const recents = meta.map((item) => item);
 
   return {
     props: {
-      slugs: recents,
+      changelogs: recents,
       totalItems: {
-        weeks: slugs.length,
+        weeks: changelogs.data.docs.length,
       },
     },
     revalidate: 1,
