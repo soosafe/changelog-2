@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }) {
     props: {
       changelog,
     },
-    revalidate: 1,
+    // revalidate: 1,
   };
 }
 

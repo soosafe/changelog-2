@@ -118,7 +118,7 @@ export const getServerSideProps = async ({ params }) => {
         months: Object.keys(monthChangelogsMap).length,
       },
     },
-    revalidate: 1,
+    // revalidate: 1,
   };
 };
 

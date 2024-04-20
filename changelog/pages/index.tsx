@@ -154,7 +154,7 @@ export async function getServerSideProps({ params }) {
         years: Object.keys(yearsChangelogsMap).length,
       },
     },
-    revalidate: 1,
+    // revalidate: 1,
   };
 }
 
