@@ -106,7 +106,6 @@ export const getServerSideProps = async ({ params }) => {
         weeks: changelogs.data.docs.length,
       },
     },
-    revalidate: 1,
   };
 };
 
