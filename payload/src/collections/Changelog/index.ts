@@ -115,7 +115,7 @@ const Changelogs: CollectionConfig = {
         const data = await payload.find({
           collection: "changelogs",
           where: { slug: { equals: req.params.slug } },
-          limit: 1,
+          // limit: 1,
         });
         if (data.docs.length === 0) {
           res.status(404).send({ error: "not found" });
