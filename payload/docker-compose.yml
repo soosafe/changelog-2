@@ -8,13 +8,14 @@ services:
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
-      - media:/home/media/app/media
+      - media:/home/node/app/media
     working_dir: /home/node/app/
     command: sh -c "yarn install && yarn dev"
     depends_on:
       - mongo
     env_file:
       - .env
+    restart: always
 
   mongo:
     image: mongo:latest
