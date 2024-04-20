@@ -6,11 +6,10 @@
     "develop": "next dev",
     "dev": "next dev -p 3004",
     "postbuild": "next-sitemap",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "changelog:generate": "node ./bin/changelog.js"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
@@ -20,9 +19,6 @@
     "@emotion/styled": "^11.8.1",
     "@fontsource/ibm-plex-sans": "^4.5.4",
     "@fontsource/inter": "^4.5.4",
-    "@mdx-js/loader": "^2.2.1",
-    "@mdx-js/react": "^2.2.1",
-    "@next/mdx": "^13.0.7",
     "axios": "^1.6.8",
     "dayjs": "^1.10.7",
     "escape-html": "^1.0.3",
