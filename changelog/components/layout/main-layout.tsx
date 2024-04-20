@@ -172,7 +172,7 @@ export const MainLayout = ({
                         color={mode === "dark" ? "white" : "gray.700"}
                         textAlign={"start"}
                       >
-                        The latest from June
+                        The latest from {process.env.NEXT_PUBLIC_SITE_TITLE}
                       </Text>
                       <Heading
                         as="h1"

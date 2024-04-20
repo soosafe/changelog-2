@@ -68,7 +68,7 @@ export default function Layout({ children }: ILayoutProps) {
                   {!isInBlogPage && (
                     <VStack alignItems="start" width="100%">
                       <Text fontSize="xl" color="gray.700" textAlign={"start"}>
-                        The latest from June
+                        The latest from {process.env.NEXT_PUBLIC_SITE_TITLE}
                       </Text>
                       <Heading as="h1" fontSize={["5xl"]} color="black" textAlign={"start"}>
                         Changelog
