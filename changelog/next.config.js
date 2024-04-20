@@ -6,7 +6,7 @@ const nextConfig = {
     NEXT_PUBLIC_PAYLOAD_URL: process.env.NEXT_PUBLIC_PAYLOAD_URL,
   },
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "changelog-api-j8lc.onrender.com"],
   },
   async redirects() {
     return [];

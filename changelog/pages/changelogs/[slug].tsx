@@ -16,20 +16,20 @@ const Changelog = ({ changelog }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const changelogs = await api.get("/api/changelogs");
-//
-//   return {
-//     paths: changelogs.data.docs.map((changelog) => ({
-//       params: {
-//         slug: changelog.slug,
-//       },
-//     })),
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  const changelogs = await api.get("/api/changelogs");
 
-export async function getServerSideProps({ params }) {
+  return {
+    paths: changelogs.data.docs.map((changelog) => ({
+      params: {
+        slug: changelog.slug,
+      },
+    })),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }) {
   const changelogResponse = await api.get(`/api/changelogs/slug/${params.slug}`);
   const changelog = changelogResponse?.data;
 
@@ -37,7 +37,7 @@ export async function getServerSideProps({ params }) {
     props: {
       changelog,
     },
-    // revalidate: 1,
+    revalidate: 1,
   };
 }
 
