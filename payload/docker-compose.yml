@@ -1,13 +1,14 @@
-version: '3'
+version: "3"
 
 services:
   payload:
     image: node:18-alpine
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
+      - media:/home/media/app/media
     working_dir: /home/node/app/
     command: sh -c "yarn install && yarn dev"
     depends_on:
@@ -18,7 +19,7 @@ services:
   mongo:
     image: mongo:latest
     ports:
-      - '27017:27017'
+      - "27017:27017"
     command:
       - --storageEngine=wiredTiger
     volumes:
@@ -29,3 +30,4 @@ services:
 volumes:
   data:
   node_modules:
+  media:
