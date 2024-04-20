@@ -54,31 +54,31 @@ const Page = ({ changelogs }: IPageProps) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const currentYear = new Date().getFullYear();
-//   const years = Array.from(Array(41), (x, i) => currentYear - 20 + i); // Generate paths for 20 years back and forth from the current year
-//   const months = Array.from(Array(12)).map((month, index) =>
-//     index < 9 ? `0${index + 1}` : `${index + 1}`
-//   );
-//
-//   const paths = months
-//     .map((month) =>
-//       years.map((year) => ({
-//         params: {
-//           month: month.toString(),
-//           year: year.toString(),
-//         },
-//       }))
-//     )
-//     .flat();
-//
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(Array(11), (x, i) => currentYear - 5 + i); // Generate paths for 20 years back and forth from the current year
+  const months = Array.from(Array(12)).map((month, index) =>
+    index < 9 ? `0${index + 1}` : `${index + 1}`
+  );
 
-export const getServerSideProps = async ({ params }) => {
+  const paths = months
+    .map((month) =>
+      years.map((year) => ({
+        params: {
+          month: month.toString(),
+          year: year.toString(),
+        },
+      }))
+    )
+    .flat();
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export const getStaticProps = async ({ params }) => {
   const changelogs = await api.get("/api/changelogs");
 
   const { month, year } = params;

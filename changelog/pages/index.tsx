@@ -74,7 +74,7 @@ const Page = ({ changelogs, changelogsMap, totalItems }: IPageProps) => {
   );
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const changelogs = await api.get("/api/changelogs");
 
   const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);
@@ -154,7 +154,7 @@ export async function getServerSideProps({ params }) {
         years: Object.keys(yearsChangelogsMap).length,
       },
     },
-    // revalidate: 1,
+    revalidate: 1,
   };
 }
 

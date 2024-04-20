@@ -78,7 +78,7 @@ export const ChangelogLayout = (props: ChangelogLayoutProps) => {
 
   if (props.imagePreviewMode) {
     return (
-      <Image src={props.meta.image.url} alt={props.meta.title} height="100%" objectFit={"cover"} />
+      <Image src={props.meta.image?.url} alt={props.meta.title} height="100%" objectFit={"cover"} />
     );
   }
 
@@ -95,17 +95,17 @@ export const ChangelogLayout = (props: ChangelogLayoutProps) => {
           <link rel="icon" href="/favicon.ico" />
           <meta name="title" content={title} />
           <meta name="description" content={description} />
-          <meta name="image" content={props.meta.image.url} />
+          <meta name="image" content={props.meta.image?.url} />
           <meta property="og:type" content="website" />
           <meta property="og:url" content={url} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <meta property="og:image" content={props.meta.image.url} />
+          <meta property="og:image" content={props.meta.image?.url} />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:url" content={url} />
           <meta name="twitter:title" content={title} />
           <meta name="twitter:description" content={description} />
-          <meta name="twitter:image" content={props.meta.image.url} />
+          <meta name="twitter:image" content={props.meta.image?.url} />
         </Head>
       )}
       <Timeline
