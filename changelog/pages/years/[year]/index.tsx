@@ -50,23 +50,23 @@ const Page = ({ changelogsMap }: IPageProps) => {
   );
 };
 
-export async function getStaticPaths() {
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(Array(41), (x, i) => currentYear - 20 + i); // Generate paths for 20 years back and forth from the current year
+// export async function getStaticPaths() {
+//   const currentYear = new Date().getFullYear();
+//   const years = Array.from(Array(41), (x, i) => currentYear - 20 + i); // Generate paths for 20 years back and forth from the current year
+//
+//   const paths = years.map((year) => ({
+//     params: {
+//       year: year.toString(),
+//     },
+//   }));
+//
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-  const paths = years.map((year) => ({
-    params: {
-      year: year.toString(),
-    },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
   const changelogs = await api.get("/api/changelogs");
 
   const meta = changelogs.data?.docs?.map((changelog) => changelog).filter((item) => item);

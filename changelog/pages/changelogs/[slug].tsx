@@ -16,22 +16,22 @@ const Changelog = ({ changelog }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const changelogs = await api.get("/api/changelogs");
+// export async function getStaticPaths() {
+//   const changelogs = await api.get("/api/changelogs");
+//
+//   return {
+//     paths: changelogs.data.docs.map((changelog) => ({
+//       params: {
+//         slug: changelog.slug,
+//       },
+//     })),
+//     fallback: false,
+//   };
+// }
 
-  return {
-    paths: changelogs.data.docs.map((changelog) => ({
-      params: {
-        slug: changelog.slug,
-      },
-    })),
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const changelogResponse = await api.get(`/api/changelogs/slug/${params.slug}`);
-  const changelog = changelogResponse.data;
+  const changelog = changelogResponse?.data;
 
   return {
     props: {
