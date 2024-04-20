@@ -2,7 +2,7 @@
   "rules": {
     "react/react-in-jsx-scope": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "react-hooks/rules-of-hooks": false
+    "react-hooks/rules-of-hooks": 0
   },
   "extends": ["react-app", "prettier"]
 }
