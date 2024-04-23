@@ -3,6 +3,7 @@ import typography from "./typograpy";
 import sizes, { baseSizes } from "./sizes";
 import colors from "./colors";
 import Button from "./Button";
+import { mode } from "@chakra-ui/theme-tools";
 
 const overrides = {
   ...typography,
@@ -13,6 +14,13 @@ const overrides = {
   colors,
   components: {
     Button,
+  },
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: mode("white", "black")(props),
+      },
+    }),
   },
 };
 

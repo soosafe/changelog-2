@@ -126,10 +126,10 @@ export const ChangelogLayout = (props: ChangelogLayoutProps) => {
           <VStack align="start" spacing={[4, 4, 6]}>
             {props.tags !== undefined && (
               <Flex gap={2}>
-                {props.tags?.map((tag, index) => (
+                {props.tags?.map((tag) => (
                   <Box
                     height="22px"
-                    bg={useColorModeValue("#F1F3F5", "gray.800")}
+                    bg={useColorModeValue("#F1F3F5", "black")}
                     color={useColorModeValue("#0D131B", "white")}
                     fontSize="14px"
                     borderRadius="full"

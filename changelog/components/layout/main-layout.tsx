@@ -21,6 +21,7 @@ import { motion } from "framer-motion";
 import useAnimatePageStore from "lib/state/use-animate-page-store";
 import { useRouter } from "next/router";
 import usePageStatusStore from "lib/state/use-page-status-store";
+import CTASection from "components/cta/cta-section";
 
 export interface MainLayoutProps {
   page?: number;
@@ -172,7 +173,7 @@ export const MainLayout = ({
                         color={mode === "dark" ? "white" : "gray.700"}
                         textAlign={"start"}
                       >
-                        The latest from {process.env.NEXT_PUBLIC_SITE_TITLE}
+                        The latest from June
                       </Text>
                       <Heading
                         as="h1"
@@ -228,13 +229,12 @@ export const MainLayout = ({
         </Box>
       </motion.div>
       <motion.div
+        className="HOMEPAGE"
         initial={{ opacity: animatePage ? 0 : 1 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.4 }}
       >
-        <TryBanner _wrapper={{ my: [50, 50, 120] }} />
-
-        <Footer mode={mode} _wrapper={{ mt: [50, 50, 120], mb: 20 }} />
+        <CTASection />
       </motion.div>
     </>
   );
